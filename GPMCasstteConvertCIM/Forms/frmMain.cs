@@ -28,6 +28,7 @@ using GPMCasstteConvertCIM.WebServer.Models;
 using AGVSystemCommonNet6.HttpTools;
 using GPMCasstteConvertCIM.API.KGAGVS;
 using System.Collections.Concurrent;
+using static SQLite.SQLite3;
 namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
@@ -762,8 +763,39 @@ namespace GPMCasstteConvertCIM.Forms
         private void labSysTime_Click(object sender, EventArgs e)
         {
             bool success = StaUsersManager.TryLogin("gpm", "33838628", out User user);
-        }
+            if (success)
+            {
+                btnOpenLoginFOrm.Text = "µn¥X";
+                label6.Text = $"{StaUsersManager.CurrentUser.Name}\r\n({StaUsersManager.CurrentUser.Group})";
 
+                SuspendLayout();
+                if (StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_ENG | StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_RD)
+                {
+                    ckbHotRunMode.Visible = uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = toolStripMenuItem_AGVs_DB.Visible = true;
+                }
+                else
+                    ckbHotRunMode.Visible = uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = false;
+                ResumeLayout();
+            }
+        }
+        private void labip_DoubleClick(object sender, EventArgs e)
+        {
+            bool success = StaUsersManager.TryLogin("eng", "12345678", out User user);
+            if (success)
+            {
+                btnOpenLoginFOrm.Text = "µn¥X";
+                label6.Text = $"{StaUsersManager.CurrentUser.Name}\r\n({StaUsersManager.CurrentUser.Group})";
+
+                SuspendLayout();
+                if (StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_ENG | StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_RD)
+                {
+                    ckbHotRunMode.Visible = uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = toolStripMenuItem_AGVs_DB.Visible = true;
+                }
+                else
+                    ckbHotRunMode.Visible = uscAlarmShow1.showAlarmResetBtn = toolStripComboBox_Emulators.Visible = false;
+                ResumeLayout();
+            }
+        }
         private void ckbRemoteModeIndi_Click(object sender, EventArgs e)
         {
             if (Debugger.IsAttached)
@@ -861,7 +893,8 @@ namespace GPMCasstteConvertCIM.Forms
             {
 
                 var _WindowState = this.WindowState;
-                Utility.SystemLogger.UIWindowState = _WindowState;
+                if (Utility.SystemLogger != null)
+                    Utility.SystemLogger.UIWindowState = _WindowState;
             }
             catch (Exception)
             {

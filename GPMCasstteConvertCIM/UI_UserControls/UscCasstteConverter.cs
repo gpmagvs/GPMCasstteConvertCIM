@@ -111,7 +111,10 @@ namespace GPMCasstteConvertCIM.UI_UserControls
                 InterfaceClockUIRender();
 
                 uscConverterPortStatus1.BackColor = uscConverterPortStatus1.CstCVPort.PortStatusDown ? Color.DarkSlateGray : Color.IndianRed;
-                uscConverterPortStatus2.BackColor = uscConverterPortStatus2.CstCVPort.PortStatusDown ? Color.DarkSlateGray : Color.IndianRed;
+                if (uscConverterPortStatus2.CstCVPort != null)
+                    uscConverterPortStatus2.BackColor = uscConverterPortStatus2.CstCVPort.PortStatusDown ? Color.DarkSlateGray : Color.IndianRed;
+
+               // uscConverterPortStatus2.BackColor = uscConverterPortStatus2.CstCVPort.PortStatusDown ? Color.DarkSlateGray : Color.IndianRed;
 
             }
             catch (Exception ex)

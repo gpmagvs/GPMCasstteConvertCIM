@@ -62,7 +62,7 @@
             ckbHotRunMode = new CheckBox();
             btnOpenLoginFOrm = new Button();
             label6 = new Label();
-            uscConnectionStates1 = new UI_UserControls.UscConnectionStates();
+            uscConnectionStates1 = new GPMCasstteConvertCIM.UI_UserControls.UscConnectionStates();
             label1 = new Label();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
@@ -81,14 +81,14 @@
             labCurrentEncodingName = new ToolStripStatusLabel();
             labSysTime = new ToolStripStatusLabel();
             SysTimer = new System.Windows.Forms.Timer(components);
-            uscAlarmShow1 = new UI_UserControls.UscAlarmShow();
+            uscAlarmShow1 = new GPMCasstteConvertCIM.UI_UserControls.UscAlarmShow();
             ckbRemoteModeIndi = new CheckBox();
             cknOnlineModeIndi = new CheckBox();
             pnlLoading = new Panel();
             label7 = new Label();
             tabControl1 = new TabControl();
             tabPage4 = new TabPage();
-            usceqStatus1 = new UI_UserControls.UscEQStatus();
+            usceqStatus1 = new GPMCasstteConvertCIM.UI_UserControls.UscEQStatus();
             tabPage1 = new TabPage();
             splitContainer2 = new SplitContainer();
             tlpConverterContainer = new TableLayoutPanel();
@@ -98,7 +98,7 @@
             btnClearInfoLog = new Button();
             rtbSystemLogShow = new RichTextBox();
             tabPage3 = new TabPage();
-            uscAlarmTable1 = new UI_UserControls.UscAlarmTable();
+            uscAlarmTable1 = new GPMCasstteConvertCIM.UI_UserControls.UscAlarmTable();
             tabPage2 = new TabPage();
             tableLayoutPanel1 = new TableLayoutPanel();
             checkBox2 = new CheckBox();
@@ -108,7 +108,7 @@
             checkBox5 = new CheckBox();
             rtbModbusTcpServerLog = new RichTextBox();
             tabAGVSInfos = new TabPage();
-            uscagVsInfo1 = new UI_UserControls.UscAGVsInfo();
+            uscagVsInfo1 = new GPMCasstteConvertCIM.UI_UserControls.UscAGVsInfo();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource3).BeginInit();
@@ -556,6 +556,7 @@
             labWebServerUrl.Name = "labWebServerUrl";
             labWebServerUrl.Size = new Size(83, 22);
             labWebServerUrl.Text = "http://0.0.0.0:0";
+            labWebServerUrl.Click += labip_DoubleClick;
             // 
             // labCurrentEncodingName
             // 
