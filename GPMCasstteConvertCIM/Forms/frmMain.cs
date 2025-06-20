@@ -29,6 +29,7 @@ using AGVSystemCommonNet6.HttpTools;
 using GPMCasstteConvertCIM.API.KGAGVS;
 using System.Collections.Concurrent;
 using static SQLite.SQLite3;
+using System.Drawing.Imaging;
 namespace GPMCasstteConvertCIM.Forms
 {
     public partial class frmMain : Form
@@ -66,6 +67,7 @@ namespace GPMCasstteConvertCIM.Forms
             Utility.SystemLogger.Error(exception.Message, exception, false);
         }
         private frmAGVsDatabaseBroswer AGVsDatabaseForm;
+        private frmConfigBroswer ConfigBroswer;
         private void Form1_Load(object sender, EventArgs e)
         {
             pnlLoading.BringToFront();
@@ -86,7 +88,7 @@ namespace GPMCasstteConvertCIM.Forms
 
 
             Text = $"GPM AGVS CIM-V{Assembly.GetExecutingAssembly().GetName().Version.ToString()} {(Environment.Is64BitProcess ? "" : "(x86)")}-{Utility.SysConfigs.Project}";
-            警報器IO狀態ToolStripMenuItem.Visible = Utility.ModbusDeviceConfigs.Enable;
+            //警報器IO狀態ToolStripMenuItem.Visible = Utility.ModbusDeviceConfigs.Enable;
             StatusBarItemDisplayInit();
 
             Task.Run(async () =>
@@ -1002,6 +1004,14 @@ namespace GPMCasstteConvertCIM.Forms
             tsmVehicleCstReaderSwitchAuto.CheckState = _enable ? CheckState.Checked : CheckState.Unchecked;
             Utility.SysConfigs.Automation.SwitchVehicleCSTReaderWhenHostRemote = _enable;
             Utility.SaveConfigs();
+        }
+
+        private void ConfigSettingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ConfigBroswer == null)
+                ConfigBroswer = new frmConfigBroswer();
+            ConfigBroswer.Show();
+           // Utility.frmConfigBroswer.Show();
         }
     }
 }

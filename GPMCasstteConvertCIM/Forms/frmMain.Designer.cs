@@ -56,7 +56,9 @@
             openAllModbusEmuToolStripMenuItem = new ToolStripMenuItem();
             mCSRemoteToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem_AGVs_DB = new ToolStripMenuItem();
-            警報器IO狀態ToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            參數檔設定ToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem3 = new ToolStripMenuItem();
             pnlSideLeft = new Panel();
             labHotRun = new Label();
             ckbHotRunMode = new CheckBox();
@@ -157,7 +159,7 @@
             GPMRDMenuStrip.BackColor = Color.FromArgb(53, 53, 53);
             GPMRDMenuStrip.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             GPMRDMenuStrip.ImageScalingSize = new Size(20, 20);
-            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { labRegionName, txbRegionNameEditInput, btnRegionNameEditedConfirm, btnCancelRegionNameEdit, webAGVSystemToolStripMenuItem, toolStripComboBox_Emulators, toolStripMenuItem_AGVs_DB, 警報器IO狀態ToolStripMenuItem });
+            GPMRDMenuStrip.Items.AddRange(new ToolStripItem[] { labRegionName, txbRegionNameEditInput, btnRegionNameEditedConfirm, btnCancelRegionNameEdit, webAGVSystemToolStripMenuItem, toolStripComboBox_Emulators, toolStripMenuItem_AGVs_DB, toolStripMenuItem1, 參數檔設定ToolStripMenuItem, toolStripMenuItem3 });
             GPMRDMenuStrip.Location = new Point(0, 0);
             GPMRDMenuStrip.Name = "GPMRDMenuStrip";
             GPMRDMenuStrip.Padding = new Padding(6, 2, 0, 6);
@@ -324,12 +326,23 @@
             toolStripMenuItem_AGVs_DB.Visible = false;
             toolStripMenuItem_AGVs_DB.Click += ToolStripMenuItem_AGVs_DB_Click;
             // 
-            // 警報器IO狀態ToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            警報器IO狀態ToolStripMenuItem.Name = "警報器IO狀態ToolStripMenuItem";
-            警報器IO狀態ToolStripMenuItem.Size = new Size(99, 45);
-            警報器IO狀態ToolStripMenuItem.Text = "警報器DIO";
-            警報器IO狀態ToolStripMenuItem.Click += 警報器DIOToolStripMenuItem_Click;
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(12, 45);
+            // 
+            // 參數檔設定ToolStripMenuItem
+            // 
+            參數檔設定ToolStripMenuItem.ForeColor = Color.White;
+            參數檔設定ToolStripMenuItem.Name = "參數檔設定ToolStripMenuItem";
+            參數檔設定ToolStripMenuItem.Size = new Size(101, 45);
+            參數檔設定ToolStripMenuItem.Text = "參數檔設定";
+            參數檔設定ToolStripMenuItem.Click += ConfigSettingToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem3
+            // 
+            toolStripMenuItem3.Name = "toolStripMenuItem3";
+            toolStripMenuItem3.Size = new Size(12, 45);
             // 
             // pnlSideLeft
             // 
@@ -446,7 +459,7 @@
             toolStripStatusLabel1.LinkColor = Color.FromArgb(53, 53, 53);
             toolStripStatusLabel1.Margin = new Padding(0);
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(748, 22);
+            toolStripStatusLabel1.Size = new Size(852, 22);
             toolStripStatusLabel1.Spring = true;
             toolStripStatusLabel1.Text = "GPM AGV SYSTEM CIM";
             toolStripStatusLabel1.TextAlign = ContentAlignment.MiddleLeft;
@@ -1090,7 +1103,6 @@
         private ToolStripMenuItem 編輯ToolStripMenuItem;
         private ToolStripTextBox txbRegionNameEditInput;
         private ToolStripStatusLabel labWebServerUrl;
-        private ToolStripMenuItem 警報器IO狀態ToolStripMenuItem;
         private Label labHotRun;
         private ToolStripMenuItem toolStripMenuItem_AGVs_DB;
         private ToolStripMenuItem dEBUGToolStripMenuItem;
@@ -1132,5 +1144,8 @@
         private ToolStripMenuItem mCSRemoteToolStripMenuItem;
         private ToolStripDropDownButton tsddAutomations;
         private ToolStripMenuItem tsmVehicleCstReaderSwitchAuto;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem toolStripMenuItem3;
+        private ToolStripMenuItem 參數檔設定ToolStripMenuItem;
     }
 }
