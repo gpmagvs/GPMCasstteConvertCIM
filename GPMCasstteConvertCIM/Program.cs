@@ -74,7 +74,14 @@ namespace GPMCasstteConvertCIM
 
         private static void CheckProgramOpenState()
         {
-            var pros = Process.GetProcessesByName(Application.ProductName);
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length > 1 && args[1] == "--restart")
+            {
+                return;
+            }
+
+
+            var pros = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
             if (pros.Length > 1)
             {
                 MessageBox.Show("CIM 程式已經啟動");

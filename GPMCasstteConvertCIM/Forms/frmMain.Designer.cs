@@ -1023,7 +1023,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GPM AGVS CIM_V23.5.23.1";
             WindowState = FormWindowState.Maximized;
-            FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             SizeChanged += FrmMain_SizeChanged;
             ((System.ComponentModel.ISupportInitialize)primaryMessageWrapperBindingSource4).EndInit();
