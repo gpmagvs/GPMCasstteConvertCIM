@@ -127,7 +127,7 @@ namespace GPMCasstteConvertCIM.Forms
         {
             List<CasstteConverter.Data.clsMemoryAddress> plc_word_addresses = _ModbusTCPServer.linkedCasstteConverter.LinkWordMap.FindAll(mem => mem.Link_Modbus_Register_Number != -1);
 
-            for (int i = 1; i <= plc_word_addresses.Count; i++)
+            for (int i = 1; i <= 512; i++)
             {
                 try
                 {
@@ -153,29 +153,38 @@ namespace GPMCasstteConvertCIM.Forms
             List<CasstteConverter.Data.clsMemoryAddress> modbus_linked_addresses = _ModbusTCPServer.linkedCasstteConverter.LinkBitMap.FindAll(mem => mem.EOwner == OWNER.EQP && mem.Link_Modbus_Register_Number != -1);
             List<CasstteConverter.Data.clsMemoryAddress> DI_modbus_linked_addresses = _ModbusTCPServer.linkedCasstteConverter.LinkBitMap.FindAll(mem => mem.EOwner == OWNER.CIM && mem.Link_Modbus_Register_Number != -1);
 
-            for (int i = 1; i <= 255; i++)
+            for (int i = 1; i <= 512; i++)
             {
-                var plc_Address = DI_modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i);
-                DigitalIORegister DI = new DigitalIORegister(DigitalIORegister.IO_TYPE.INPUT)
+                try
                 {
-                    Index = i,
-                    State = _ModbusTCPServer.modbusSlave.DataStore.InputDiscretes[i],
-                    Description = plc_Address?.DataName,
-                    LinkPLCAddress = plc_Address?.Address
-                };
-                digitalInputs.Add(DI);
+
+                    var plc_Address = DI_modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i);
+                    DigitalIORegister DI = new DigitalIORegister(DigitalIORegister.IO_TYPE.INPUT)
+                    {
+                        Index = i,
+                        State = _ModbusTCPServer.modbusSlave.DataStore.InputDiscretes[i],
+                        Description = plc_Address?.DataName,
+                        LinkPLCAddress = plc_Address?.Address
+                    };
+                    digitalInputs.Add(DI);
 
 
-                plc_Address = modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i);
-                var DO = new DigitalIORegister(DigitalIORegister.IO_TYPE.OUTPUT)
+                    plc_Address = modbus_linked_addresses.FirstOrDefault(m => m.Link_Modbus_Register_Number == i);
+                    var DO = new DigitalIORegister(DigitalIORegister.IO_TYPE.OUTPUT)
+                    {
+                        Index = i,
+                        State = _ModbusTCPServer.modbusSlave.DataStore.CoilDiscretes[i],
+                        Description = plc_Address?.DataName,
+                        LinkPLCAddress = plc_Address?.Address
+
+                    };
+                    digitalOutputs.Add(DO);
+                }
+                catch (Exception ex)
                 {
-                    Index = i,
-                    State = _ModbusTCPServer.modbusSlave.DataStore.CoilDiscretes[i],
-                    Description = plc_Address?.DataName,
-                    LinkPLCAddress = plc_Address?.Address
 
-                };
-                digitalOutputs.Add(DO);
+                    throw;
+                }
             }
             //var source = new BindingSource()
             //{
@@ -194,9 +203,10 @@ namespace GPMCasstteConvertCIM.Forms
         private void timer1_Tick(object sender, EventArgs e)
         {
             labLastClientRequestTime.Text = lastCoilsWriteTime.ToString();
+            int totalInputCnt= digitalInputs.Count();
             if (ModbusTCPServer != null)
             {
-                for (int i = 1; i <= 255; i++)
+                for (int i = 1; i <= totalInputCnt; i++)
                 {
                     digitalInputs[i - 1].State = _ModbusTCPServer.modbusSlave.DataStore.CoilDiscretes[i + 1];
                     digitalOutputs[i - 1].State = _ModbusTCPServer.modbusSlave.DataStore.InputDiscretes[i];

@@ -707,6 +707,19 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         EQPORT.WIPInfo_BCR_ID_9 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_9).Value;
                         EQPORT.WIPInfo_BCR_ID_10 = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.WIP_Information_BCR_10).Value;
                         UPdateCarrierIDFromMemeoryTable(EQPORT);
+
+                        try
+                        {
+                            int barcodeColor_Red = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.BarcodeColorRed).Value;
+                            int barcodeColor_Green = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.BarcodeColorGreen).Value;
+                            int barcodeColor_Blue = (int)LinkWordMap.First(f => !f.IsCIMUse && f.EScope == port && f.EProperty == PROPERTY.BarcodeColorBlue).Value;
+
+                            EQPORT.BarcodeColor = Color.FromArgb(barcodeColor_Red, barcodeColor_Green, barcodeColor_Blue);
+                        }
+                        catch (Exception ex)
+                        {
+                            // 如果沒有顏色資訊，則忽略
+                        }
                         //EQPORT.WIPINFO_BCR_ID = IsSimulation ? EQPORT.Properties.PreviousOnPortID : EQPORT.GetWIPIDFromMem();
                     }
                     catch (Exception ex)

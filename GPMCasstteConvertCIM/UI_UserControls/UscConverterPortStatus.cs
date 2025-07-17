@@ -109,7 +109,7 @@ namespace GPMCasstteConvertCIM.UI_UserControls
             ChangeAGVAGVLDULDStatusText();
 
             labWaitIn.Text = !CstCVPort.wait_in_timer.IsRunning || !CstCVPort.CarrierWaitINSystemRequest ? "Wait In" : $"Wait In({Math.Round(CstCVPort.wait_in_timer.ElapsedMilliseconds / 1000.0, 2)})";
-
+            txbWIP_BCR_ID.BackColor = CstCVPort.BarcodeColor;
             txbWIP_BCR_ID.ReadOnly = !CstCVPort.EQParent.simulation_mode;
             btnUpdateCarrierID.Visible = StaUsersManager.CurrentUser.Group == StaUsersManager.USER_GROUP.GPM_RD;
             labTagNumber.Text = CstCVPort.Properties.TagNumberInAGVS + "";

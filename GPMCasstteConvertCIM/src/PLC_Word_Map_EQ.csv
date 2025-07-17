@@ -53,9 +53,9 @@ W0432,EQP,Alarm Code (1-16),Binary,,EQ,Alarm_Code_1_16,51,,,,,,,,W,1074,0,ZR,351
 W0433,EQP,Alarm Code (17-32),Binary,,EQ,Alarm_Code_17_32,52,,,,,,,,W,1075,0,ZR,35167,5000
 W0434,EQP,Alarm Code (33-48),Binary,,EQ,Alarm_Code_33_48,53,,,,,,,,W,1076,0,ZR,35167,5000
 W0435,EQP,,,,,,,,,,,,,,W,1077,0,ZR,35167,5000
-W0436,EQP,,,,,,,,,,,,,,W,1078,0,ZR,35167,5000
-W0437,EQP,,,,,,,,,,,,,,W,1079,0,ZR,35167,5000
-W0438,EQP,,,,,,,,,,,,,,W,1080,0,ZR,35167,5000
+W0436,EQP,Barcode Color Red,Binary,,PORT1,BarcodeColorRed,256,,,,,,,,W,1078,0,ZR,35167,5000
+W0437,EQP,Barcode Color Green,Binary,,PORT1,BarcodeColorGreen,257,,,,,,,,W,1079,0,ZR,35167,5000
+W0438,EQP,Barcode Color Blue,Binary,,PORT1,BarcodeColorBlue,258,,,,,,,,W,1080,0,ZR,35167,5000
 W0439,EQP,,,,,,,,,,,,,,W,1081,0,ZR,35167,5000
 W043A,EQP,,,,,,,,,,,,,,W,1082,0,ZR,35167,5000
 W043B,EQP,,,,,,,,,,,,,,W,1083,0,ZR,35167,5000

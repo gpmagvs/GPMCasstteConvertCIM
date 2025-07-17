@@ -546,6 +546,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             }
         }
 
+        public Color BarcodeColor { get; set; } = Color.FromArgb(0, 0, 0); //預設黑色
+        public string BarcodeColorHex => BarcodeColor.ToString();
+
 
         #region AGV交握訊號
 

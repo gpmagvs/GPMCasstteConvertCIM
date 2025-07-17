@@ -146,8 +146,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
             HOST_MODE,
             AGVS_MSG_DOWNLOAD_INDEX,
             AGVS_MSG_1,
-            AGVS_MSG_17
-
+            AGVS_MSG_17,
+            BarcodeColorRed,
+            BarcodeColorGreen,
+            BarcodeColorBlue,
         }
 
         public enum IO_MODE
