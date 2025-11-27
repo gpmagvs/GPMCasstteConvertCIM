@@ -209,7 +209,7 @@ namespace GPMCasstteConvertCIM.Forms
                     eQLotIDMonitor.StartMonitor();
 
                     SECSState.EqLotIDMonitor = eQLotIDMonitor;
-                    SECSState.OnMCSRemoteModeChanged += AGVController.HandleHostRemoteModeChanged;
+                    SECSState.OnMCSOnlineModeChanged += AGVController.HandleHostOnlineModeChanged;
 
                     Task.Delay(5000).ContinueWith(async (t) =>
                     {

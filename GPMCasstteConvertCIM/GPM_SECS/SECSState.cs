@@ -29,6 +29,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
                     Utility.SystemLogger.Info($"AGVS/MCS Online Mode Changed to {(value ? "Online" : "Offline")}");
                     _IsOnline = value;
+                    OnMCSOnlineModeChanged?.Invoke("", _IsOnline);
                     if (_IsRemote && _IsOnline)
                     {
                         clsAgvsAlarmDevice.Return_Online();
@@ -63,6 +64,7 @@ namespace GPMCasstteConvertCIM.GPM_SECS
 
         internal static event EventHandler OnMCSOnlineRemote;
         internal static event EventHandler<bool> OnMCSRemoteModeChanged;
+        internal static event EventHandler<bool> OnMCSOnlineModeChanged;
 
         internal static void HandleAGVSHostModeChanged(object? sender, int hostMode)
         {

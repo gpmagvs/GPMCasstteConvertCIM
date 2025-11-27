@@ -34,6 +34,21 @@ namespace GPMCasstteConvertCIM.Utilities
                 await SwitchCSTReader(isRemoteMode);
             });
         }
+
+        internal static async void HandleHostOnlineModeChanged(object? sender, bool isOnline)
+        {
+            _LOG($"Handle Host Online/Offline State changed, Is Online now :{isOnline}");
+            if (!IsSwitchCSTAutomation)
+            {
+                _LOG($"Switch CST Reader of vehicle when HOST is Online now.");
+                return;
+            }
+
+            await Task.Delay(1).ContinueWith(async t =>
+            {
+                await SwitchCSTReader(isOnline);
+            });
+        }
         internal static async Task SwitchCSTReader(bool enable)
         {
             if (!aGVWrappers.Any())
