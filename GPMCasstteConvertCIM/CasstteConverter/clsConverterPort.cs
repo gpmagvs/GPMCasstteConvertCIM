@@ -522,11 +522,11 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         {
                             if (carrierRemoveReportForIDFromTransferCommand)
                             {
-                                await RemoveCarrier(CSTID_From_TransferCompletedReport + "");
+                                await RemoveCarrier(CSTID_From_TransferCompletedReport + "", bypassInOputPutModeCheck: true);
                                 CSTID_From_TransferCompletedReport = "";
                                 await Task.Delay(500);
                             }
-                            await InstallCarrier(cst + "");
+                            await InstallCarrier(cst + "", bypassInOputPutModeCheck: carrierRemoveReportForIDFromTransferCommand);
                         });
 
                     }
@@ -851,7 +851,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         }
 
-        internal async Task RemoveCarrier(string cst_id, bool checkPortType = true, bool CallRemoveRackCarrierIDAPI = true)
+        internal async Task RemoveCarrier(string cst_id, bool checkPortType = true, bool CallRemoveRackCarrierIDAPI = true, bool bypassInOputPutModeCheck = false)
         {
             bool _isLastCstIDReadFailFlag = IsLastCstIDReadResultFailFlag;
             UpdateModbusBCRReport("", isClearBCR: true);
@@ -872,7 +872,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Warning($"[{PortName}]Carrier Remove Event not Report to MCS ,because 'NeverReportCarrierRemove' setting is actived.");
                 return;
             }
-            if (!_isLastCstIDReadFailFlag && checkPortType && Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE && EPortType != PortUnitType.Output)
+            if (!bypassInOputPutModeCheck && !_isLastCstIDReadFailFlag && checkPortType && Properties.RemoveCarrierMCSReportOnlyInOUTPUTMODE && EPortType != PortUnitType.Output)
             {
                 Utility.SystemLogger.Warning($"[{PortName}] Only report carrier remove when OUPUT Mode actived. BCR ID Clear but Port Type ={EPortType}, Carrier removed not REPORT to MCS");
                 return;
@@ -908,7 +908,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
         private SemaphoreSlim _RackCstModifyWaitSlim = new SemaphoreSlim(1, 1);
 
-        internal async Task InstallCarrier(string cst_id)
+        internal async Task InstallCarrier(string cst_id, bool bypassInOputPutModeCheck = false)
         {
             if (!PortExist)
                 return;
@@ -937,7 +937,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     return;
                 }
                 bool ReportToMCSAllow = Properties.CarrierInstallReportToMCSOnlyPortTypeEqualINPUT ? EPortType == PortUnitType.Input : true;
-                if (!ReportToMCSAllow)
+                if (!bypassInOputPutModeCheck && !ReportToMCSAllow)
                 {
                     Utility.SystemLogger.Warning($"{PortName}-[Carrier Install Report Not Presented]:因為已設置 '僅在INPUT模式下上報Carrier Installed 事件'，且當前PortType為 {EPortType}");
                     return;
@@ -1255,7 +1255,7 @@ namespace GPMCasstteConvertCIM.CasstteConverter
 
             async Task CarrierWaitoutReportToMCS()
             {
-                var isCSTIDMismatch = WIPINFO_BCR_ID != CSTID_From_TransferCompletedReport;
+                var isCSTIDMismatch = CSTID_From_TransferCompletedReport != "" && WIPINFO_BCR_ID != CSTID_From_TransferCompletedReport;
                 bool IsBCRReadFail = IsBCR_READ_ERROR() || WIPINFO_BCR_ID == "";
 
                 if (IsBCRReadFail)//讀取失敗=>報TUN
@@ -1265,10 +1265,10 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         Utility.SystemLogger.Info($"[{PortName}] BCR Carrier ID Read Fail.  BCR Reader={WIPINFO_BCR_ID}, Carrier Installed Report To MCS  With CST Virtual ID={CSTIDOnPort}");
                         Utility.SystemLogger.Info($"[{PortName}] [Before Wait out Report To_MCS - BCR ID Read Fail] Remove 107 Carrier ID({CSTIDOnPort}) First");
-                        await RemoveCarrier(CSTIDOnPort + "");
+                        await RemoveCarrier(CSTIDOnPort + "", bypassInOputPutModeCheck: true);
                         await Task.Delay(100);
                         var _TUNID = CreateTUNID();
-                        await InstallCarrier(_TUNID);
+                        await InstallCarrier(_TUNID, bypassInOputPutModeCheck: true);
                     }
                 }
                 else
@@ -1277,9 +1277,9 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                     {
                         Utility.SystemLogger.Info($"[{PortName}] Carrier ID Miss match CST ID From Transfer Task = {CSTID_From_TransferCompletedReport}, BCR Reader={WIPINFO_BCR_ID}");
                         Utility.SystemLogger.Info($"[{PortName}] [Before Wait out Report To_MCS - ID Missmatch] Remove 107 Carrier ID({CSTID_From_TransferCompletedReport}) First");
-                        await RemoveCarrier(CSTID_From_TransferCompletedReport + "");
+                        await RemoveCarrier(CSTID_From_TransferCompletedReport + "", bypassInOputPutModeCheck: true);
                         await Task.Delay(100);
-                        await InstallCarrier(WIPINFO_BCR_ID);
+                        await InstallCarrier(WIPINFO_BCR_ID, bypassInOputPutModeCheck: true);
                     }
                 }
                 await Task.Delay(1000);
