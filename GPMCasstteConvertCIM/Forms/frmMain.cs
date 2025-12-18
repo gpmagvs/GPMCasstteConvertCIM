@@ -861,7 +861,11 @@ namespace GPMCasstteConvertCIM.Forms
             {
 
                 var _WindowState = this.WindowState;
-                Utility.SystemLogger.UIWindowState = _WindowState;
+                if (Utility.SystemLogger != null)
+                {
+                    Utility.SystemLogger.UIWindowState = _WindowState;
+                }
+                
             }
             catch (Exception)
             {

@@ -466,6 +466,26 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                 Utility.SystemLogger.Info($"TS Barcode Read Fail. {_WIPINFO_BCR_ID} Is Error");
             return IsErrorRead;
         }
+        protected string CreateUNID(string head = null)
+        {
+            string prefix = head ?? Utility.SysConfigs.UnknowCargoIDHead;
+
+            var unid = $"{prefix}{TUNIDLFOW:D5}";
+
+            if (Debugger.IsAttached)
+            {
+                Utility.SystemLogger.Info($"UNID={unid}");
+            }
+
+            TUNIDLFOW++;
+
+            if (TUNIDLFOW >= int.MaxValue)
+            {
+                TUNIDLFOW = 1;
+            }
+
+            return unid;
+        }
         public string CSTID_From_TransferCompletedReport = "";
         public string CSTIDOnPort = "";
         private string TUNID = "";
@@ -507,9 +527,18 @@ namespace GPMCasstteConvertCIM.CasstteConverter
                         {
                             if (Debugger.IsAttached)
                                 CSTID_From_TransferCompletedReport = "TTTTESTID";
+
                             carrierRemoveReportForIDFromTransferCommand = !string.IsNullOrEmpty(CSTID_From_TransferCompletedReport);
-                            TUNID = CreateTUNID();
-                            cst = TUNID;
+
+                            var upper = (_WIPINFO_BCR_ID ?? string.Empty).ToUpper();
+
+                            if (upper.Contains("ERROR-RACK"))
+                                cst = CreateUNID("DUN");    
+                            else if (upper.Contains("ERROR-TRAY"))
+                                cst = CreateUNID("TUN");    
+                            else
+                                cst = CreateUNID(Utility.SysConfigs.UnknowCargoIDHead); // fallback
+                            TUNID = cst;
                         }
                         else
                         {
